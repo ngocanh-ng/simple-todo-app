@@ -1,4 +1,6 @@
-# JavaScript Todo-App: <br>🪜Schritt-für-Schritt Tutorial
+# ✅ Simple Todo-App: 
+
+👣 Schritt-für-Schritt Tutorial
 
 ## Lernziele
 - Grundlagen JS praktisch anwenden.
