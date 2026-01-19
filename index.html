@@ -11,13 +11,29 @@
 <body>
     <div class="container">
         <h1>Meine Todos</h1>
-
+        <p id="counter">0 Aufgaben</p>
         <div class="input-section">
             <input type="text" id="todoInput" placeholder="Neue Aufgabe eingeben...">
             <button id="addBtn">Hinzufügen</button>
         </div>
 
+        <div class="filter-section">
+            <label for="filterSelect">Filter:</label>
+            <select id="filterSelect" onchange="setFilter(this.value)">
+                <option value="all">Alle</option>
+                <option value="active">Offen</option>
+                <option value="completed">Erledigt</option>
+            </select>
+        </div>
+
         <ul id="todoList"></ul>
+        <template id="todoTemplate">
+            <li class="todo-item">
+                <input type="checkbox" class="todo-checkbox">
+                <span class="todo-text"></span>
+                <button class="delete-btn">X</button>
+            </li>
+</template>
     </div>
 
     <script src="app.js"></script>

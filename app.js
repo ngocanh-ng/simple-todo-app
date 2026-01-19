@@ -49,48 +49,53 @@ todoInput.addEventListener('keypress', (event) => {
 
 // Funktion zum Erstellen eines Todo Items
 function renderTodo(todo) {
-    const li = document.createElement('li');
-        li.className = 'todo-item';
-        if (todo.completed) {
-            li.classList.add('completed');
-        }
-        
-        // Checkbox erstellen
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = todo.completed;
-        checkbox.addEventListener('change', function() {
-            toggleTodo(todo.id);
-        });
-        
-        // Text-Span erstellen
-        const span = document.createElement('span');
-        span.className = 'todo-text';
-        span.textContent = todo.text;
-        
-        // Löschen-Button erstellen
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = 'X';
-        deleteBtn.addEventListener('click', function() {
-            deleteTodo(todo.id);
-        });
-        
-        // Alles zusammenfügen
-        li.appendChild(checkbox);
-        li.appendChild(span);
-        li.appendChild(deleteBtn);
-        todoList.appendChild(li);
+
+    // Template-Element holen
+    const template = document.getElementById('todoTemplate');
+    
+    // Template klonen (kopieren)
+    const clone = template.content.cloneNode(true);
+    
+    // Elemente aus dem Klon holen
+    const li = clone.querySelector('.todo-item');
+    const checkbox = clone.querySelector('.todo-checkbox');
+    const span = clone.querySelector('.todo-text');
+    const deleteBtn = clone.querySelector('.delete-btn');
+    
+    // Completed-Status setzen
+    if (todo.completed) {
+        li.classList.add('completed');
+    }
+    
+    // Checkbox konfigurieren
+    checkbox.checked = todo.completed;
+    checkbox.addEventListener('change', () => {
+        toggleTodo(todo.id);
+    });
+    
+    // Text setzen
+    span.textContent = todo.text;
+    
+    // Delete-Button konfigurieren
+    deleteBtn.addEventListener('click', () => {
+        deleteTodo(todo.id);
+    });
+    
+    // Geklontes Element zur Liste hinzufügen
+    todoList.appendChild(clone);
 }
 
 // Funktion zum Anzeigen aller Todos
 function renderTodos() {
     // Liste leeren
     todoList.innerHTML = '';
-    
-    todos.forEach(function(todo) {
-    renderTodo(todo);
+
+    const filtered = getFilteredTodos();
+    filtered.forEach(function(todo) {
+        renderTodo(todo);
     });
+
+    updateCounter();
 }
 
 // Funktion zum Umschalten des completed-Status
@@ -131,3 +136,32 @@ function loadTodos() {
         renderTodos();
     }
 }
+
+let filter = 'all'; // 'all', 'active', 'completed'
+
+function setFilter(newFilter) {
+    filter = newFilter;
+    renderTodos();
+}
+
+function getFilteredTodos() {
+    if (filter === 'active') {
+        return todos.filter(t => !t.completed);
+    } else if (filter === 'completed') {
+        return todos.filter(t => t.completed);
+    }
+    return todos;
+}
+
+function updateCounter() {
+    const total = todos.length;
+    const completed = todos.filter(function(t) {
+        return t.completed;
+    }).length;
+
+    const counter = document.getElementById('counter');
+    counter.textContent = completed + ' von ' + total + ' erledigt';
+}
+
+// Beim Laden der Seite die gespeicherten Todos laden
+loadTodos();
