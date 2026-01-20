@@ -146,16 +146,30 @@ ul {
     button {
         background: var(--danger);
         color: var(--text);
-        width: 1.5rem;
-        aspect-ratio: 1/1;
-        ;
         border: none;
-        padding: 0.25rem;
+        padding: 0.25rem 0.5rem;
         border-radius: var(--border-radius);
         cursor: pointer;
 
         &:hover {
             box-shadow: var(--shadow-m);
         }
+    }
+
+    .edit-btn {
+        background: var(--secondary);
+        color: var(--text);
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+
+        &:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+    }
+
+    .delete-btn {
+        background: var(--danger);
+        padding: 0.25rem 0.5rem;
     }
 }
